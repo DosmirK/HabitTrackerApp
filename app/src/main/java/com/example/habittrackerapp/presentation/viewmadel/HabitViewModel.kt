@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.habittrackerapp.domain.model.HabitModel
 import com.example.habittrackerapp.domain.usecase.HabitUseCase
-import com.example.habittrackerapp.domain.utils.DataState
-import com.example.habittrackerapp.domain.utils.UiState
+import com.example.habittrackerapp.domain.utils.states.DataState
+import com.example.habittrackerapp.domain.utils.states.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,15 +36,21 @@ class HabitViewModel @Inject constructor(
                         }
                     }
                     is DataState.Error -> _habits.value = UiState.Error(it.message)
+                    else -> {}
                 }
                 Log.e("ololo", "data_habits: ${_habits.value.data.toString()}")
             }
         }
     }
 
-    fun addHabit(habit: HabitModel) {
+    suspend fun addHabit(habit: HabitModel) = habitUseCase.addHabit(habit)
+    suspend fun deleteHabit(habit: HabitModel) = habitUseCase.deleteHabit(habit)
+    fun updateHabit(habit: HabitModel) {
         viewModelScope.launch {
-            habitUseCase.addHabit(habit)
+            habitUseCase.habitUpdate(habit)
         }
     }
+    suspend fun getTotalHabitsCount(): Int = habitUseCase.getTotalHabitsCount()
+    suspend fun getCompletedHabitsCount(): Int = habitUseCase.getCompletedHabitsCount()
+    suspend fun percentageHabitsCompleted(): Int = habitUseCase.percentageHabitsCompleted()
 }

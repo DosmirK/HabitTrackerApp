@@ -14,13 +14,16 @@
         <action
             android:id="@+id/action_navigation_home_to_habitFragment"
             app:destination="@id/habitFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_habitEditFragment"
+            app:destination="@id/habitEditFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.habittrackerapp.presentation.fragments.progress.DashboardFragment"
+        android:name="com.example.habittrackerapp.presentation.fragments.progress.ProgressFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_progress" />
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -32,4 +35,17 @@
         android:name="com.example.habittrackerapp.presentation.fragments.habit.HabitFragment"
         android:label="fragment_habit"
         tools:layout="@layout/fragment_habit" />
+    <fragment
+        android:id="@+id/habitEditFragment"
+        android:name="com.example.habittrackerapp.presentation.fragments.habit.HabitEditFragment"
+        android:label="fragment_habit_edit"
+        tools:layout="@layout/fragment_habit_edit" >
+
+    <argument
+        android:name="habit"
+        app:argType="com.example.habittrackerapp.domain.model.HabitModel"
+        app:nullable="true"/>
+
+    </fragment>
+
 </navigation>

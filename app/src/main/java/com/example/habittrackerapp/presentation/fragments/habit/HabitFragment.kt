@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.habittrackerapp.databinding.FragmentHabitBinding
 import com.example.habittrackerapp.domain.model.HabitModel
 import com.example.habittrackerapp.presentation.viewmadel.HabitViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HabitFragment : Fragment() {
@@ -35,13 +37,14 @@ class HabitFragment : Fragment() {
 
     private fun initListeners() {
         binding.btnAdd.setOnClickListener {
-            viewModel.addHabit(
-                HabitModel(
-                    name = binding.editText.text.toString(),
-                    isCompleted = false,
-                    id = 0
+            viewModel.viewModelScope.launch {
+                viewModel.addHabit(
+                    HabitModel(
+                        name = binding.editText.text.toString(),
+                        id = 0
+                    )
                 )
-            )
+            }
             findNavController().navigateUp()
         }
     }

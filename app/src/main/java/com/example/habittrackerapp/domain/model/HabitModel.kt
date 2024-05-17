@@ -1,7 +1,11 @@
 package com.example.habittrackerapp.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class HabitModel(
     val id: Int,
     val name: String,
-    val isCompleted: Boolean
-)
+    var isCompleted: Boolean = false
+): Parcelable

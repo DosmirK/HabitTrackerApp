@@ -1,6 +1,7 @@
 package com.example.habittrackerapp.presentation.activity
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,6 +10,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.habittrackerapp.R
 import com.example.habittrackerapp.databinding.ActivityMainBinding
+import com.example.habittrackerapp.domain.utils.notifications.NotificationService
+import com.example.habittrackerapp.domain.utils.notifications.checkNotificationPermission
+import com.example.habittrackerapp.domain.utils.notifications.showNotificationPermissionDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,8 +29,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
@@ -34,5 +37,12 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        if (!checkNotificationPermission(this)) {
+            showNotificationPermissionDialog(this)
+        } else {
+            NotificationService.scheduleJob(this)
+            Log.e("ololo", "Запуск задачи")
+        }
     }
 }

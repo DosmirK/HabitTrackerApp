@@ -26,14 +26,22 @@ class AppModule {
         context, HabitDatabase::class.java, "habit"
     ).build()
 
+    @Singleton
     @Provides
     fun provideHabitDao(habitDatabase: HabitDatabase) =
         habitDatabase.getHabitDao()
 
+    @Singleton
+    @Provides
+    fun provideDayDataDao(habitDatabase: HabitDatabase) =
+        habitDatabase.getDayDataDao()
+
+    @Singleton
     @Provides
     fun provideHabitRepository(habitDao: HabitDao): HabitRepository =
         HabitRepositoryImpl(habitDao)
 
+    @Singleton
     @Provides
     fun provideHabitUesCase(habitRepository: HabitRepository) =
         HabitUseCase(habitRepository)

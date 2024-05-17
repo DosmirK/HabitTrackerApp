@@ -4,9 +4,9 @@ import android.util.Log
 import com.example.habittrackerapp.data.db.dao.HabitDao
 import com.example.habittrackerapp.domain.model.HabitModel
 import com.example.habittrackerapp.domain.repositories.HabitRepository
-import com.example.habittrackerapp.domain.utils.DataState
-import com.example.habittrackerapp.domain.utils.mapToHabitModel
-import com.example.habittrackerapp.domain.utils.toHabit
+import com.example.habittrackerapp.domain.utils.states.DataState
+import com.example.habittrackerapp.domain.utils.converters.mapToHabitModel
+import com.example.habittrackerapp.domain.utils.converters.toHabit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -28,4 +28,8 @@ class HabitRepositoryImpl @Inject constructor(
         }
 
     override suspend fun addHabit(habit: HabitModel) = habitDao.addHabit(habit.toHabit())
+    override suspend fun updateHabit(habit: HabitModel) = habitDao.update(habit.toHabit())
+    override suspend fun deleteHabit(habit: HabitModel) = habitDao.remove(habit.toHabit())
+    override suspend fun getTotalHabitsCount(): Int = habitDao.getTotalHabitsCount()
+    override suspend fun getCompletedHabitsCount(): Int = habitDao.getCompletedHabitsCount()
 }
